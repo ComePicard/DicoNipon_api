@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS categorie;
 
 CREATE TABLE IF NOT EXISTS categorie(
     id_categorie SERIAL,
-    categorie_nom VARCHAR(50) NOT NULL,
+    nom_categorie VARCHAR(50) NOT NULL,
     PRIMARY KEY (id_categorie)
 );
 
