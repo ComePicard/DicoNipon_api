@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from api.dao import get_pool
 from api.endpoints import router
 from api.endpoints.endpoint_categorie import router as router_categorie
+from api.endpoints.endpoint_mot import router as router_mot
 from api.version import __version__ as git_version
 
 
@@ -31,6 +32,7 @@ def make_app() -> FastAPI:
         cnx.closeall()
 
     _app.include_router(router_categorie)
+    _app.include_router(router_mot)
     _app.include_router(router)
 
     return _app

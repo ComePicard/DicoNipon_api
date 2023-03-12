@@ -36,7 +36,7 @@ def get_mot_by_id_ktk(id_ktk: int, ):
     return result
 
 
-def get_mot_by_type(type_mot: str):
+def get_mots_by_type(type_mot: str):
     with get_cursor() as cur:
         sql = """
             SELECT *
@@ -48,7 +48,7 @@ def get_mot_by_type(type_mot: str):
     return result
 
 
-def get_mot_by_terminaison(terminaison: str):
+def get_mots_by_terminaison(terminaison: str):
     with get_cursor() as cur:
         sql = """
             SELECT *
@@ -60,7 +60,7 @@ def get_mot_by_terminaison(terminaison: str):
     return result
 
 
-def get_mot_by_groupe(groupe: str):
+def get_mots_by_groupe(groupe: int):
     with get_cursor() as cur:
         sql = """
             SELECT *
@@ -83,7 +83,7 @@ def add_mot(
 ):
     with get_cursor() as cur:
         sql = """
-            INSERT INTO categorie (
+            INSERT INTO mot (
                 id_kanji_to_kana,
                 mot_katakana,
                 mot_hiragana,
@@ -128,7 +128,7 @@ def edit_mot(
 ):
     with get_cursor() as cur:
         sql = """
-            UPDATE categorie
+            UPDATE mot
             SET 
                 id_kanji_to_kana = %(id_kanji_to_kana)s,
                 mot_katakana = %(mot_katakana)s,

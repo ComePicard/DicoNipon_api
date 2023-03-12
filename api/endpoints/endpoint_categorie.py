@@ -23,7 +23,7 @@ def valid_categorie_from_path(
 
 class CreateCategorieModel(BaseModel):
     nom_categorie: constr(strip_whitespace=True, min_length=1) = Field(..., description="Le nom de la catégorie",
-                                                                       exemple="Verbe")
+                                                                       example="Couleur")
 
 
 class CategorieModel(CreateCategorieModel):
