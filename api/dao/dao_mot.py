@@ -1,1 +1,108 @@
 from api.dao import get_cursor
+
+
+def get_all_mots():
+    with get_cursor() as cur:
+        sql = """
+            SELECT *
+            FROM mot
+        """
+        cur.execute(sql)
+        result = cur.fetchall()
+    return result
+
+
+def get_mot_by_id(id_mot: int, ):
+    with get_cursor() as cur:
+        sql = """
+            SELECT *
+            FROM mot
+            WHERE id_mot = %(id_mot)s
+        """
+        cur.execute(sql, {"id_mot": id_mot})
+        result = cur.fetchone()
+    return result
+
+
+def add_mot(
+        id_kanji_to_kana: int,
+        mot_katakana: str,
+        mot_kanji: str,
+        type: str,
+        terminaison: str,
+        groupe: int
+):
+    with get_cursor() as cur:
+        sql = """
+            INSERT INTO categorie (
+                id_kanji_to_kana,
+                mot_katakana,
+                mot_kanji,
+                type,
+                terminaison,
+                groupe
+            )
+            VALUES (
+                %(id_kanji_to_kana)s,
+                %(mot_katakana)s,
+                %(mot_kanji)s,
+                %(type)s,
+                %(terminaison)s,
+                %(groupe)s
+            )
+            RETURNING *
+        """
+        cur.execute(sql, {
+            "id_kanji_to_kana": id_kanji_to_kana,
+            "mot_katakana": mot_katakana,
+            "mot_kanji": mot_kanji,
+            "type": type,
+            "terminaison": terminaison,
+            "groupe": groupe
+        })
+        result = cur.fetchone()
+    return result
+
+
+def edit_mot(
+        id_mot: int,
+        id_kanji_to_kana: int,
+        mot_katakana: str,
+        mot_kanji: str,
+        type: str,
+        terminaison: str,
+        groupe: int
+):
+    with get_cursor() as cur:
+        sql = """
+            UPDATE categorie
+            SET 
+                id_kanji_to_kana = %(id_kanji_to_kana)s,
+                mot_katakana = %(mot_katakana)s,
+                mot_kanji = %(mot_kanji)s,
+                type = %(type)s,
+                terminaison = %(terminaison)s,
+                groupe = %(groupe)s
+            WHERE id_mot = %(id)s
+            RETURNING *
+        """
+        cur.execute(sql, {
+            "id_mot": id_mot,
+            "id_kanji_to_kana": id_kanji_to_kana,
+            "mot_katakana": mot_katakana,
+            "mot_kanji": mot_kanji,
+            "type": type,
+            "terminaison": terminaison,
+            "groupe": groupe
+        })
+        result = cur.fetchone()
+    return result
+
+
+def delete_mot(id_mot: int):
+    with get_cursor() as cur:
+        sql = """
+            DELETE FROM mot
+            WHERE id_mot = %(id_mot)s
+        """
+        cur.execute(sql, {"id_mot": id_mot})
