@@ -24,6 +24,54 @@ def get_mot_by_id(id_mot: int, ):
     return result
 
 
+def get_mot_by_id_ktk(id_ktk: int, ):
+    with get_cursor() as cur:
+        sql = """
+            SELECT *
+            FROM mot
+            WHERE id_kanji_to_kana = %(id_ktk)s
+        """
+        cur.execute(sql, {"id_ktk": id_ktk})
+        result = cur.fetchone()
+    return result
+
+
+def get_mot_by_type(type_mot: str):
+    with get_cursor() as cur:
+        sql = """
+            SELECT *
+            FROM mot
+            WHERE type = %(type_mot)s
+        """
+        cur.execute(sql, {"type_mot": type_mot})
+        result = cur.fetchall()
+    return result
+
+
+def get_mot_by_terminaison(terminaison: str):
+    with get_cursor() as cur:
+        sql = """
+            SELECT *
+            FROM mot
+            WHERE terminaison = %(terminaison)s
+        """
+        cur.execute(sql, {"terminaison": terminaison})
+        result = cur.fetchall()
+    return result
+
+
+def get_mot_by_groupe(groupe: str):
+    with get_cursor() as cur:
+        sql = """
+            SELECT *
+            FROM mot
+            WHERE groupe = %(groupe)s
+        """
+        cur.execute(sql, {"groupe": groupe})
+        result = cur.fetchall()
+    return result
+
+
 def add_mot(
         id_kanji_to_kana: int,
         mot_katakana: str,
