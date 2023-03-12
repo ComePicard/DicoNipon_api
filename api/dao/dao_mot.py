@@ -75,6 +75,7 @@ def get_mot_by_groupe(groupe: str):
 def add_mot(
         id_kanji_to_kana: int,
         mot_katakana: str,
+        mot_hiragana: str,
         mot_kanji: str,
         type: str,
         terminaison: str,
@@ -85,6 +86,7 @@ def add_mot(
             INSERT INTO categorie (
                 id_kanji_to_kana,
                 mot_katakana,
+                mot_hiragana,
                 mot_kanji,
                 type,
                 terminaison,
@@ -93,6 +95,7 @@ def add_mot(
             VALUES (
                 %(id_kanji_to_kana)s,
                 %(mot_katakana)s,
+                %(mot_hiragana)s,
                 %(mot_kanji)s,
                 %(type)s,
                 %(terminaison)s,
@@ -103,6 +106,7 @@ def add_mot(
         cur.execute(sql, {
             "id_kanji_to_kana": id_kanji_to_kana,
             "mot_katakana": mot_katakana,
+            "mot_hiragana": mot_hiragana,
             "mot_kanji": mot_kanji,
             "type": type,
             "terminaison": terminaison,
@@ -116,6 +120,7 @@ def edit_mot(
         id_mot: int,
         id_kanji_to_kana: int,
         mot_katakana: str,
+        mot_hiragana: str,
         mot_kanji: str,
         type: str,
         terminaison: str,
@@ -127,6 +132,7 @@ def edit_mot(
             SET 
                 id_kanji_to_kana = %(id_kanji_to_kana)s,
                 mot_katakana = %(mot_katakana)s,
+                mot_hiragana: %(mot_hiragana)s,
                 mot_kanji = %(mot_kanji)s,
                 type = %(type)s,
                 terminaison = %(terminaison)s,
@@ -137,6 +143,7 @@ def edit_mot(
         cur.execute(sql, {
             "id_mot": id_mot,
             "id_kanji_to_kana": id_kanji_to_kana,
+            "mot_hiragana": mot_hiragana,
             "mot_katakana": mot_katakana,
             "mot_kanji": mot_kanji,
             "type": type,
