@@ -46,7 +46,7 @@ def add_mot_categorie(id_mot: int, id_categorie: int):
             INSERT INTO mot_categorie (id_mot, id_categorie)
             VALUES (
                 %(id_mot)s,
-                %(id_categorie)s,
+                %(id_categorie)s
             )
             RETURNING *
         """
