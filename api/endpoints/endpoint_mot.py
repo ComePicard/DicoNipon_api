@@ -4,7 +4,7 @@ from fastapi import APIRouter, Path, HTTPException, Depends
 from pydantic import BaseModel, Field, constr, conint
 
 from api.dao.dao_mot import get_mot_by_id, get_all_mots, add_mot, edit_mot, delete_mot, get_mots_by_terminaison, \
-    get_mot_by_id_ktk, get_mots_by_groupe, get_mots_by_type
+    get_mot_by_id_ktk, get_mots_by_groupe, get_mots_by_type, get_mots_by_traduction
 
 router = APIRouter(tags=["Mot"])
 
@@ -25,15 +25,17 @@ class CreateMotModel(BaseModel):
     id_kanji_to_kana: int | None = Field(None, description="Id du mot dans le kanji to kana", example=4)
     mot_katakana: constr(strip_whitespace=True) | None = Field(...,
                                                                description="Ecriture du mot en katakana",
-                                                               example="カタカナ")
+                                                               example="")
     mot_hiragana: constr(strip_whitespace=True) | None = Field(...,
                                                                description="Ecriture du mot en hiragana",
-                                                               example="ひらがな")
+                                                               example="ひと")
     mot_kanji: constr(strip_whitespace=True) | None = Field(..., description="Ecriture du mot en kanji",
-                                                            example="漢字")
+                                                            example="人")
+    traduction: constr(strip_whitespace=True) = Field(..., description="Traduction du mot en français",
+                                                      example="une personne, un humain")
     type: constr(strip_whitespace=True, min_length=1) = Field(..., description="Type du mot",
-                                                              example="Verbe")
-    groupe: conint(ge=1, le=3) | None = Field(..., description="Groupe du verbe", example="1")
+                                                              example="nom_commun")
+    groupe: conint(ge=1, le=3) | None = Field(..., description="Groupe du verbe", example="")
 
 
 class MotModel(CreateMotModel):
@@ -77,6 +79,19 @@ def get_mots_terminaison(
     Affiche les verbes portant la terminaison
     """
     return get_mots_by_terminaison(terminaison=terminaison)
+
+
+@router.get("/mots_traduction/{traduction}", response_model=list[MotModel],
+            summary="Affiche le ou les mots correspondant à cette traduction")
+def get_mots_traduction(
+        traduction: str = Path(description="traduction du mot", example="manger")
+):
+    """
+    # Get Mots Traduction
+
+    Affiche le ou les mots correspondant à cette traduction
+    """
+    return get_mots_by_traduction(traduction=traduction)
 
 
 @router.get("/mot_ktk/{id_ktk}", response_model=MotModel,
@@ -132,6 +147,7 @@ def post_mot(
         mot_katakana=createMot.mot_katakana,
         mot_hiragana=createMot.mot_hiragana,
         mot_kanji=createMot.mot_kanji,
+        traduction=createMot.traduction,
         type=createMot.type,
         terminaison=createMot.mot_hiragana[len(createMot.mot_hiragana) - 1]
         if createMot.type.lower() == "verbe" else None,
@@ -157,6 +173,7 @@ def post_mot(
         mot_katakana=createMot.mot_katakana,
         mot_hiragana=createMot.mot_hiragana,
         mot_kanji=createMot.mot_kanji,
+        traduction=createMot.traduction,
         type=createMot.type,
         terminaison=terminaison,
         groupe=createMot.groupe

@@ -60,6 +60,18 @@ def get_mots_by_terminaison(terminaison: str):
     return result
 
 
+def get_mots_by_traduction(traduction: str):
+    with get_cursor() as cur:
+        sql = """
+            SELECT *
+            FROM mot
+            WHERE traduction = %(traduction)s
+        """
+        cur.execute(sql, {"traduction": traduction})
+        result = cur.fetchall()
+    return result
+
+
 def get_mots_by_groupe(groupe: int):
     with get_cursor() as cur:
         sql = """
@@ -77,6 +89,7 @@ def add_mot(
         mot_katakana: str,
         mot_hiragana: str,
         mot_kanji: str,
+        traduction: str,
         type: str,
         terminaison: str,
         groupe: int
@@ -88,6 +101,7 @@ def add_mot(
                 mot_katakana,
                 mot_hiragana,
                 mot_kanji,
+                traduction,
                 type,
                 terminaison,
                 groupe
@@ -97,6 +111,7 @@ def add_mot(
                 %(mot_katakana)s,
                 %(mot_hiragana)s,
                 %(mot_kanji)s,
+                %(traduction)s,
                 %(type)s,
                 %(terminaison)s,
                 %(groupe)s
@@ -108,6 +123,7 @@ def add_mot(
             "mot_katakana": mot_katakana,
             "mot_hiragana": mot_hiragana,
             "mot_kanji": mot_kanji,
+            "traduction": traduction,
             "type": type,
             "terminaison": terminaison,
             "groupe": groupe
@@ -122,6 +138,7 @@ def edit_mot(
         mot_katakana: str,
         mot_hiragana: str,
         mot_kanji: str,
+        traduction: str,
         type: str,
         terminaison: str,
         groupe: int
@@ -134,6 +151,7 @@ def edit_mot(
                 mot_katakana = %(mot_katakana)s,
                 mot_hiragana: %(mot_hiragana)s,
                 mot_kanji = %(mot_kanji)s,
+                traduction = %(traduction)s,
                 type = %(type)s,
                 terminaison = %(terminaison)s,
                 groupe = %(groupe)s
@@ -146,6 +164,7 @@ def edit_mot(
             "mot_hiragana": mot_hiragana,
             "mot_katakana": mot_katakana,
             "mot_kanji": mot_kanji,
+            "traduction": traduction,
             "type": type,
             "terminaison": terminaison,
             "groupe": groupe
