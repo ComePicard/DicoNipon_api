@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS mot;
 DROP TABLE IF EXISTS mot_categorie;
+DROP TABLE IF EXISTS mot;
 DROP TABLE IF EXISTS categorie;
 
 
@@ -14,9 +14,9 @@ CREATE TABLE IF NOT EXISTS mot
 (
     id_mot           SERIAL,
     id_kanji_to_kana INTEGER,
-    mot_katakana     VARCHAR(50),
-    mot_hiragana     VARCHAR(50),
     mot_kanji        VARCHAR(50),
+    mot_hiragana     VARCHAR(50),
+    mot_katakana     VARCHAR(50),
     traduction       VARCHAR(50) NOT NULL,
     type             VARCHAR(50) NOT NULL CHECK (type in ('verbe',
                                                           'nom_commun',
