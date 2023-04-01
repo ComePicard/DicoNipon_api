@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "diconipon-api"
+version = "0.1.0"
+description = "Projet d'API pour du vocabulaire de japonais"
+authors = ["comeP <come.picard@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "diconipon_api" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+uvicorn = { extras = ["standard"], version = "==0.18.2" }
+psycopg2 = "==2.9.5"
+fastapi = "==0.79.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
