@@ -84,6 +84,33 @@ def get_mots_by_groupe(groupe: int):
     return result
 
 
+def get_mots_filtre(
+        type: str = "Tous",
+        groupe: int | str = "Tous",
+        terminaison: str = None,
+):
+    type_clause = "" if type == "Tous" else "AND type=%(type)s"
+    groupe_clause = "" if groupe == "Tous" else "AND groupe=%(groupe)s"
+    terminaison_clause = "" if terminaison == "null" else "AND terminaison=%(terminaison)s"
+    with get_cursor() as cur:
+        cur.execute(f"""
+                SELECT *
+                FROM mot
+                WHERE  1=1
+                {type_clause}
+                {groupe_clause}
+                {terminaison_clause}
+                ORDER BY id_mot
+            """,
+                    {
+                        "type": type,
+                        "groupe": groupe,
+                        "terminaison": terminaison,
+                    })
+        result = cur.fetchall()
+    return result
+
+
 def add_mot(
         id_kanji_to_kana: int,
         mot_katakana: str,

@@ -4,7 +4,7 @@ from fastapi import APIRouter, Path, HTTPException, Depends
 from pydantic import BaseModel, Field, constr, conint
 
 from api.dao.dao_mot import get_mot_by_id, get_all_mots, add_mot, edit_mot, delete_mot, get_mots_by_terminaison, \
-    get_mot_by_id_ktk, get_mots_by_groupe, get_mots_by_type, get_mots_by_traduction
+    get_mot_by_id_ktk, get_mots_by_groupe, get_mots_by_type, get_mots_by_traduction, get_mots_filtre
 
 router = APIRouter(tags=["Mot"])
 
@@ -131,6 +131,16 @@ def get_mots_type(
     Affiche les verbes du type donné
     """
     return get_mots_by_type(type_mot=type_mot)
+
+
+@router.get("/mots_filtre/{type_mot}/{groupe}/{terminaison}", response_model=list[MotModel],
+            summary="Affiche une liste filtré des mots")
+def get_filtered_mot(
+        type_mot: str = Path(),
+        groupe: int | str = Path(),
+        terminaison: str = Path(),
+):
+    return get_mots_filtre(type=type_mot, groupe=groupe, terminaison=terminaison)
 
 
 @router.post("/mot", response_model=MotModel, summary="Crée un mot")
